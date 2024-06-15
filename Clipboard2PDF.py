@@ -6,11 +6,9 @@ import time
 import keyboard
 import pyautogui
 
-# Tesseract executable path
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 def process_screenshot(image):
-    # OCR kullanarak KOD kısmını tanı
     text = pytesseract.image_to_string(image)
     kod = ""
     for line in text.split('\n'):
@@ -18,7 +16,6 @@ def process_screenshot(image):
             kod = line.split(':')[-1].strip()
             break
 
-    # Ekran görüntüsünü PDF olarak kaydet
     output_dir = r'C:\Users\a\OneDrive\Masaüstü\dxf2pdf'
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, f'{kod}.pdf')
@@ -26,7 +23,6 @@ def process_screenshot(image):
     print(f'Saved: {output_path}')
 
 def take_screenshot():
-    # Windows Snipping Tool'u açmak için tuş kombinasyonunu simüle et
     pyautogui.hotkey('win', 'shift', 's')
 
 def check_clipboard():
@@ -36,7 +32,6 @@ def check_clipboard():
 
     while True:
         try:
-            # Panodaki resmi kontrol et
             clipboard_image = ImageGrab.grabclipboard()
 
             if clipboard_image and clipboard_image != last_image:
@@ -50,8 +45,6 @@ def check_clipboard():
             print(f"Error: {e}")
             time.sleep(0.2)
 
-# < tuşuna basıldığında ekran görüntüsü al
 keyboard.add_hotkey('<', take_screenshot)
 
-# Kullanım
 check_clipboard()
